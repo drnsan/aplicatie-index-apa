@@ -157,28 +157,30 @@
 
         .actions {
             display: flex;
-            gap: 15px;
+            flex-wrap: nowrap; /* Ensure buttons stay on a single line */
+            justify-content: center; /* Center the group of buttons */
+            gap: 8px; /* Reduced gap */
             margin-top: 40px;
         }
 
         .action-button {
-            padding: 10px 15px; /* Reduced vertical padding */
+            padding: 8px 12px; /* Reduced padding for all buttons */
             border: none;
-            border-radius: 8px; /* Slightly smaller border-radius */
+            border-radius: 8px; /* Consistent border-radius */
             color: white;
-            font-size: 0.95em; /* Slightly smaller font size */
+            font-size: 0.9em; /* Consistent font size */
             font-weight: 600;
             cursor: pointer;
             transition: all 0.3s ease;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* Softer shadow */
-        }
-        
-        .action-button:not(#clear-btn) {
-            flex: 1; /* Ensure other buttons take equal space */
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* Consistent shadow */
+            text-align: center; /* Center the text */
+            flex-grow: 0; /* Prevent buttons from growing */
+            flex-shrink: 0; /* Prevent buttons from shrinking */
+            min-width: 105px; /* Slightly reduced minimum width for main buttons */
         }
         
         .action-button:hover {
-            transform: translateY(-2px); /* Slightly less movement on hover */
+            transform: translateY(-2px); /* Consistent hover effect */
             box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
         }
 
@@ -187,22 +189,35 @@
         }
 
         #export-btn {
-            background: linear-gradient(135deg, #007bff, #0056b3);
+            background: linear-gradient(135deg, #4a90e2, #357ABD); /* Softer blue */
         }
 
         #export-backup-btn {
-            background: linear-gradient(135deg, #6c757d, #5a6268); /* Greyish color for backup export */
+            background: linear-gradient(135deg, #888, #666); /* Darker, more neutral grey */
         }
 
         #import-backup-btn {
-            background: linear-gradient(135deg, #ffc107, #e0a800); /* Yellowish color for backup import */
+            background: linear-gradient(135deg, #5cb85c, #449d44); /* Green for import, indicating success/addition */
         }
 
         #clear-btn {
-            background: linear-gradient(135deg, var(--danger-color), #c82333);
-            flex: 0.3;
-            font-size: 0.7em;
-            padding: 10px;
+            background: linear-gradient(135deg, #e74c3c, #c0392b); /* Softer red */
+            font-size: 0.6em; /* Even smaller text */
+            padding: 1px 4px; /* Tighter padding */
+            min-width: 70px; /* Narrower width */
+            opacity: 0.6; /* De-emphasized by default */
+            display: inline-flex; /* Center content nicely */
+            align-items: center;
+            justify-content: center;
+            gap: 4px; /* Space between icon and text */
+            line-height: 1.1; /* Comfortable line height */
+            margin-left: auto; /* Push to the right side of the row */
+            margin-right: 0; /* No extra gap on the right */
+            box-shadow: none; /* Less prominent */
+            font-weight: 500; /* Slightly lighter weight */
+        }
+        #clear-btn:hover {
+            opacity: 1; /* Full opacity on hover */
         }
     </style>
 </head>
@@ -268,7 +283,7 @@
                 <button id="export-backup-btn" class="action-button">📥 Exportă Date</button>
                 <input type="file" id="import-backup-file" accept=".json" style="display: none;">
                 <button id="import-backup-btn" class="action-button">📤 Importă Date</button>
-                <button id="clear-btn" class="action-button">🗑️ Șterge Date</button>
+                <button id="clear-btn" class="action-button" title="Sterge Date" aria-label="Sterge Date">🗑️ Sterge Date</button>
             </div>
     </div>
 
