@@ -77,7 +77,7 @@
             font-family: 'Poppins', sans-serif;
             cursor: pointer;
             appearance: none;
-            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='%23888' viewBox='0 0 16 16'%3E%3Cpath d='M7.247 11.14L2.451 5.658C1.885 5.013 2.345 4 3.204 4h9.592a1 1 0 0 1 .753 1.659l-4.796 5.48a1 1 0 0 1-1.506 0z'/%3E%3Csvg%3E");
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='%23888' viewBox='0 0 16 16'%3E%3Cpath d='M7.247 11.14L2.451 5.658C1.885 5.013 2.345 4 3.204 4h9.592a1 1 0 0 1 .753 1.659l-4.796 5.48a1 1 0 0 1-1.506 0z'/%3E%3C/svg%3E");
             background-repeat: no-repeat;
             background-position: right 15px center;
             background-size: 12px;
@@ -162,20 +162,24 @@
         }
 
         .action-button {
-            flex: 1;
-            padding: 15px;
+            padding: 10px 15px; /* Reduced vertical padding */
             border: none;
-            border-radius: 10px;
+            border-radius: 8px; /* Slightly smaller border-radius */
             color: white;
-            font-size: 1.1em;
+            font-size: 0.95em; /* Slightly smaller font size */
             font-weight: 600;
             cursor: pointer;
             transition: all 0.3s ease;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* Softer shadow */
+        }
+        
+        .action-button:not(#clear-btn) {
+            flex: 1; /* Ensure other buttons take equal space */
         }
         
         .action-button:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
+            transform: translateY(-2px); /* Slightly less movement on hover */
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
         }
 
         #save-btn {
@@ -184,6 +188,14 @@
 
         #export-btn {
             background: linear-gradient(135deg, #007bff, #0056b3);
+        }
+
+        #export-backup-btn {
+            background: linear-gradient(135deg, #6c757d, #5a6268); /* Greyish color for backup export */
+        }
+
+        #import-backup-btn {
+            background: linear-gradient(135deg, #ffc107, #e0a800); /* Yellowish color for backup import */
         }
 
         #clear-btn {
@@ -250,11 +262,14 @@
             </div>
         </div>
 
-        <div class="actions">
-            <!-- <button id="save-btn" class="action-button">💾 Salvează</button> -->
-            <button id="export-btn" class="action-button">📊 Export Excel</button>
-            <button id="clear-btn" class="action-button">🗑️ Sterge Datele</button>
-        </div>
+            <div class="actions">
+                <!-- <button id="save-btn" class="action-button">💾 Salvează</button> -->
+                <button id="export-btn" class="action-button">📊 Raport Excel</button>
+                <button id="export-backup-btn" class="action-button">📥 Exportă Date</button>
+                <input type="file" id="import-backup-file" accept=".json" style="display: none;">
+                <button id="import-backup-btn" class="action-button">📤 Importă Date</button>
+                <button id="clear-btn" class="action-button">🗑️ Șterge Datele</button>
+            </div>
     </div>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
@@ -276,6 +291,9 @@
             };
             const saveBtn = document.getElementById('save-btn');
             const exportBtn = document.getElementById('export-btn');
+            const exportBackupBtn = document.getElementById('export-backup-btn');
+            const importBackupBtn = document.getElementById('import-backup-btn');
+            const importBackupFile = document.getElementById('import-backup-file');
             const clearBtn = document.getElementById('clear-btn');
 
             const startYear = 2025;
@@ -403,6 +421,50 @@
                 }
             }
 
+            function exportBackup() {
+                const backupData = JSON.stringify(data, null, 2); // Pretty print JSON
+                const blob = new Blob([backupData], { type: 'application/json' });
+                const url = URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = `water_data_backup_${new Date().toISOString().slice(0,10)}.json`;
+                document.body.appendChild(a);
+                a.click();
+                document.body.removeChild(a);
+                URL.revokeObjectURL(url);
+                // Removed alert as it appears before user saves the file
+            }
+
+            function importBackup() {
+                importBackupFile.click(); // Trigger the hidden file input click
+            }
+
+            importBackupFile.addEventListener('change', (event) => {
+                const file = event.target.files[0];
+                if (!file) {
+                    return;
+                }
+
+                const reader = new FileReader();
+                reader.onload = (e) => {
+                    try {
+                        const importedData = JSON.parse(e.target.result);
+                        if (confirm('Ești sigur că vrei să imporți aceste date? Datele curente vor fi suprascrise.')) {
+                            data = importedData;
+                            localStorage.setItem('waterDataV2', JSON.stringify(data));
+                            updateUI();
+                            alert('Datele au fost importate cu succes!');
+                        }
+                    } catch (error) {
+                        alert('Eroare la importarea fișierului. Asigură-te că este un fișier JSON valid.');
+                        console.error('Error importing backup:', error);
+                    }
+                };
+                reader.readAsText(file);
+                // Clear the input so the same file can be selected again if needed
+                event.target.value = '';
+            });
+
             function exportToExcel() {
                 const wb = XLSX.utils.book_new();
                 const sheetData = [];
@@ -500,8 +562,9 @@
                 updateUI();
             });
             monthSelect.addEventListener('change', updateUI);
-            // saveBtn.addEventListener('click', saveData); // Removed manual save button listener
             exportBtn.addEventListener('click', exportToExcel);
+            exportBackupBtn.addEventListener('click', exportBackup);
+            importBackupBtn.addEventListener('click', importBackup);
             clearBtn.addEventListener('click', clearAllData);
             
             // Debounce function to limit how often saveData is called
