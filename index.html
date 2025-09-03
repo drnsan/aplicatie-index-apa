@@ -4,6 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Evidență Consum Apă v2</title>
+    <link rel="manifest" href="manifest.webmanifest">
+    <meta name="theme-color" content="#6a11cb">
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap');
 
@@ -219,6 +221,53 @@
         #clear-btn:hover {
             opacity: 1; /* Full opacity on hover */
         }
+
+        /* Mobile responsiveness */
+        @media (max-width: 480px) {
+            .app-container {
+                padding: 24px;
+                border-radius: 16px;
+            }
+            .header h1 {
+                font-size: 1.6em;
+            }
+            .date-selector {
+                flex-direction: column;
+                gap: 12px;
+            }
+            .index-inputs, .consumption-outputs {
+                grid-template-columns: 1fr;
+                gap: 12px;
+            }
+            .input-group, .output-group {
+                padding: 12px;
+            }
+            .actions {
+                flex-wrap: wrap;
+                justify-content: flex-start;
+                gap: 6px;
+                margin-top: 28px;
+            }
+            .action-button {
+                min-width: 46%;
+                padding: 10px 12px;
+                font-size: 0.9em;
+                flex-grow: 1;
+                flex-basis: 46%;
+            }
+            #export-backup-btn, #import-backup-btn, #export-btn {
+                flex-basis: 46%;
+            }
+            #clear-btn {
+                font-size: 0.6em;
+                padding: 4px 8px;
+                min-width: 0;
+                flex-grow: 0;
+                flex-basis: auto;
+                margin-left: auto;
+                order: 2; /* keep it last and to the right */
+            }
+        }
     </style>
 </head>
 <body>
@@ -260,7 +309,7 @@
         <div class="section-title">Consum Lunar (m³)</div>
         <div class="consumption-outputs">
             <div class="output-group water-cold">
-                <div class="label"><span class="icon">🛁</span>Baie Rece</div>
+                <div class="label"><span class="icon">🍽️</span>Baie Rece</div>
                 <div class="output-value neutral" id="consum-baie-rece">-</div>
             </div>
             <div class="output-group water-hot">
@@ -289,6 +338,13 @@
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
     <script>
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', function() {
+                navigator.serviceWorker.register('./sw.js').catch(function(err) {
+                    console.warn('SW registration failed', err);
+                });
+            });
+        }
         document.addEventListener('DOMContentLoaded', () => {
             const yearSelect = document.getElementById('year-select');
             const monthSelect = document.getElementById('month-select');
