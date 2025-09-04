@@ -727,23 +727,62 @@
                 XLSX.writeFile(wb, 'Evidenta_Index_Apa.xlsx');
             }
 
-            // Initial setup
+            // Initial setup with persisted selection
             populateYears();
-            yearSelect.value = new Date().getFullYear();
+            const currentYear = new Date().getFullYear();
+            const currentMonth = new Date().getMonth();
+            const savedYear = localStorage.getItem('selectedYear');
+            const savedMonth = localStorage.getItem('selectedMonth');
+
+            // Choose year: saved if valid, else current if in range, else startYear
+            let initialYear = startYear;
+            if (savedYear && savedYear >= startYear && savedYear <= endYear) {
+                initialYear = savedYear;
+            } else if (currentYear >= startYear && currentYear <= endYear) {
+                initialYear = currentYear;
+            }
+            yearSelect.value = initialYear;
             if (yearSelect.selectedIndex === -1) yearSelect.value = startYear;
-            
+
             populateMonths(yearSelect.value);
-            monthSelect.value = new Date().getMonth();
-            if (monthSelect.selectedIndex === -1) monthSelect.value = (yearSelect.value == startYear) ? 8 : 0;
+
+            // Choose month: saved if exists in options, else current if exists, else first available for that year
+            const monthOptionExists = (m) => !!monthSelect.querySelector(`option[value="${m}"]`);
+            if (savedMonth !== null && monthOptionExists(savedMonth)) {
+                monthSelect.value = savedMonth;
+            } else if (monthOptionExists(currentMonth)) {
+                monthSelect.value = currentMonth;
+            } else {
+                // Fallback to first available month option
+                monthSelect.selectedIndex = 0;
+            }
+
+            // Persist the initial selection
+            localStorage.setItem('selectedYear', yearSelect.value);
+            localStorage.setItem('selectedMonth', monthSelect.value);
 
             updateUI();
 
             // Event Listeners
             yearSelect.addEventListener('change', () => {
+                const previousMonth = monthSelect.value;
                 populateMonths(yearSelect.value);
+                // Try to keep same month if available after year change
+                if (monthSelect.querySelector(`option[value="${previousMonth}"]`)) {
+                    monthSelect.value = previousMonth;
+                } else {
+                    // Fallback to first available for that year
+                    monthSelect.selectedIndex = 0;
+                }
+                localStorage.setItem('selectedYear', yearSelect.value);
+                localStorage.setItem('selectedMonth', monthSelect.value);
                 updateUI();
             });
-            monthSelect.addEventListener('change', updateUI);
+            monthSelect.addEventListener('change', () => {
+                localStorage.setItem('selectedYear', yearSelect.value);
+                localStorage.setItem('selectedMonth', monthSelect.value);
+                updateUI();
+            });
             exportBtn.addEventListener('click', exportToExcel);
             exportBackupBtn.addEventListener('click', exportBackup);
             importBackupBtn.addEventListener('click', importBackup);
