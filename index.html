@@ -148,6 +148,37 @@
             text-align: center;
             color: var(--success-color);
         }
+
+        /* Make consumption cards smaller without affecting page size */
+        .consumption-outputs .output-group {
+            padding: 10px;
+        }
+        .consumption-outputs .label {
+            font-size: 0.85em;
+        }
+        .consumption-outputs .output-value {
+            font-size: 1.2em;
+        }
+
+        /* Totals row styling */
+        .consumption-totals {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+            margin-top: 10px;
+        }
+        .consumption-totals .output-group {
+            padding: 10px;
+        }
+        .consumption-totals .label {
+            font-size: 0.9em;
+            font-weight: 700;
+            color: var(--primary-color);
+            text-align: center;
+        }
+        .consumption-totals .output-value {
+            font-size: 1.2em;
+        }
         
         .output-value.negative {
             color: var(--danger-color);
@@ -309,7 +340,7 @@
         <div class="section-title">Consum Lunar (m³)</div>
         <div class="consumption-outputs">
             <div class="output-group water-cold">
-                <div class="label"><span class="icon">🍽️</span>Baie Rece</div>
+                <div class="label"><span class="icon">🛁</span>Baie Rece</div>
                 <div class="output-value neutral" id="consum-baie-rece">-</div>
             </div>
             <div class="output-group water-hot">
@@ -323,6 +354,17 @@
             <div class="output-group water-hot">
                 <div class="label"><span class="icon">🍽️</span>Bucătărie Caldă</div>
                 <div class="output-value neutral" id="consum-bucatarie-calda">-</div>
+            </div>
+        </div>
+
+        <div class="consumption-totals">
+            <div class="output-group water-cold">
+                <div class="label"><span class="icon">💧</span>Apa Rece (Total)</div>
+                <div class="output-value neutral" id="consum-total-rece">-</div>
+            </div>
+            <div class="output-group water-hot">
+                <div class="label"><span class="icon">🔥</span>Apa Caldă (Total)</div>
+                <div class="output-value neutral" id="consum-total-calda">-</div>
             </div>
         </div>
 
@@ -453,10 +495,79 @@
                 }
             }
             
+            function getConsumptionValue(type) {
+                const year = parseInt(yearSelect.value);
+                const month = parseInt(monthSelect.value);
+                const currentVal = parseFloat(inputs[type].value);
+
+                if (isNaN(currentVal)) {
+                    return null;
+                }
+
+                if (year === startYear && month === 8) {
+                    return null;
+                }
+
+                let prevMonth = month - 1;
+                let prevYear = year;
+                if (prevMonth < 0) {
+                    prevMonth = 11;
+                    prevYear--;
+                }
+
+                const prevKey = getKey(prevYear, prevMonth, type);
+                const prevVal = parseFloat(data[prevKey]);
+                if (isNaN(prevVal)) {
+                    return null;
+                }
+                return currentVal - prevVal;
+            }
+            
+            function updateTotals() {
+                const coldTypes = ['baie-rece', 'bucatarie-rece'];
+                const hotTypes = ['baie-calda', 'bucatarie-calda'];
+
+                const sumTypes = (types) => {
+                    let total = 0;
+                    let hasValue = false;
+                    for (const t of types) {
+                        const val = getConsumptionValue(t);
+                        if (val !== null) {
+                            total += val;
+                            hasValue = true;
+                        }
+                    }
+                    return hasValue ? total : null;
+                };
+
+                const totalRece = sumTypes(coldTypes);
+                const totalCalda = sumTypes(hotTypes);
+
+                const totalReceEl = document.getElementById('consum-total-rece');
+                const totalCaldaEl = document.getElementById('consum-total-calda');
+
+                if (totalRece === null) {
+                    totalReceEl.textContent = '-';
+                    totalReceEl.className = 'output-value neutral';
+                } else {
+                    totalReceEl.textContent = `${totalRece.toFixed(2)} m³`;
+                    totalReceEl.className = totalRece >= 0 ? 'output-value' : 'output-value negative';
+                }
+
+                if (totalCalda === null) {
+                    totalCaldaEl.textContent = '-';
+                    totalCaldaEl.className = 'output-value neutral';
+                } else {
+                    totalCaldaEl.textContent = `${totalCalda.toFixed(2)} m³`;
+                    totalCaldaEl.className = totalCalda >= 0 ? 'output-value' : 'output-value negative';
+                }
+            }
+            
             function calculateAllConsumptions() {
                 for (const type in inputs) {
                     calculateConsumption(type);
                 }
+                updateTotals();
             }
 
             function saveData(showAlert = true) {
