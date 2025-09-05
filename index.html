@@ -337,9 +337,9 @@
         }
 
         .action-button {
-            padding: 8px 12px;
+            padding: 8px 10px;
             border-radius: 8px;
-            font-size: 0.8em;
+            font-size: 0.78em; /* Slightly smaller font to fit text */
             font-weight: 600;
             cursor: pointer;
             transition: all 0.2s ease;
@@ -349,6 +349,7 @@
             color: #4b5563; /* Gray 600 */
             box-shadow: none;
             flex-grow: 1;
+            white-space: nowrap; /* Prevent text from wrapping */
         }
 
         .action-button:hover {
@@ -498,10 +499,10 @@
 
             <div class="actions">
                 <div class="action-group">
-                    <button id="export-btn" class="action-button">📊 Raport</button>
-                    <button id="export-backup-btn" class="action-button">📥 Export</button>
+                    <button id="export-btn" class="action-button">📊 Raport Excel</button>
+                    <button id="export-backup-btn" class="action-button">📥 Exportă Datele</button>
                     <input type="file" id="import-backup-file" accept=".json" style="display: none;">
-                    <button id="import-backup-btn" class="action-button">📤 Import</button>
+                    <button id="import-backup-btn" class="action-button">📤 Importă Datele</button>
                 </div>
                 <button id="clear-btn" class="action-button" title="Șterge Toate Datele">🗑️</button>
             </div>
