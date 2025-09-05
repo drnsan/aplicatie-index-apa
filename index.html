@@ -7,18 +7,23 @@
     <link rel="manifest" href="manifest.webmanifest">
     <meta name="theme-color" content="#6a11cb">
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;800&display=swap');
 
         :root {
-            --primary-color: #6a11cb;
-            --secondary-color: #2575fc;
-            --background-color: #f0f2f5;
-            --card-background: rgba(255, 255, 255, 0.98);
-            --text-color: #333;
-            --shadow-color: rgba(0, 0, 0, 0.1);
-            --success-color: #28a745;
-            --danger-color: #dc3545;
-            --input-bg: #f8f9fa;
+            --primary-color: #7c3aed; /* Violet 600 */
+            --secondary-color: #06b6d4; /* Cyan 500 */
+            --background-color: #0f172a; /* Slate 900 */
+            --card-background: #ffffff; /* Light card */
+            --text-color: #111827; /* Gray 900 */
+            --muted-text: #6b7280; /* Gray 500 */
+            --shadow-color: rgba(0,0,0,0.16);
+            --success-color: #22c55e; /* Green 500 */
+            --danger-color: #ef4444; /* Red 500 */
+            --warning-color: #f59e0b; /* Amber 500 */
+            --input-bg: #f9fafb; /* Light input */
+            --border-color: rgba(0,0,0,0.06);
+            --focus-ring: 0 0 0 3px rgba(99, 102, 241, 0.25);
+            --accent-gradient: linear-gradient(135deg, #7c3aed, #06b6d4);
         }
 
         * {
@@ -28,13 +33,17 @@
         }
 
         body {
-            font-family: 'Poppins', sans-serif;
-            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            font-family: 'Plus Jakarta Sans', system-ui, -apple-system, Segoe UI, Roboto, Inter, Poppins, sans-serif;
+            background:
+                radial-gradient(800px 500px at 10% -10%, #1e293b 0%, transparent 60%),
+                radial-gradient(800px 500px at 90% 110%, #0b1324 0%, transparent 60%),
+                linear-gradient(135deg, #0f172a, #0b1220);
             min-height: 100vh;
             display: flex;
             justify-content: center;
             align-items: center;
             padding: 20px;
+            color: var(--text-color);
         }
 
         .app-container {
@@ -43,27 +52,134 @@
             background: var(--card-background);
             border-radius: 20px;
             padding: 40px;
-            box-shadow: 0 20px 50px var(--shadow-color);
+            box-shadow: 0 35px 80px var(--shadow-color);
             backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.2);
+            border: 1px solid var(--border-color);
         }
 
         .header {
             text-align: center;
-            margin-bottom: 20px;
+            margin-bottom: 24px;
+            position: relative;
+            padding-top: 8px;
         }
 
         .header h1 {
-            font-size: 2.2em;
-            font-weight: 700;
-            color: var(--primary-color);
+            font-size: 2.3em;
+            font-weight: 800;
+            letter-spacing: -0.02em;
+            background: var(--accent-gradient);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
         }
+
+        .hero-stripe {
+            position: absolute;
+            top: -18px;
+            left: 0;
+            right: 0;
+            height: 10px;
+            background: var(--accent-gradient);
+            border-radius: 999px;
+            filter: blur(0.2px);
+            box-shadow: 0 8px 30px rgba(124,58,237,0.35);
+        }
+
+        .header .subtext {
+            font-size: 0.9em;
+            color: var(--muted-text);
+        }
+
+        .topbar { display: none; }
+
+        /* Summary cards */
+        .summary-cards {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 14px;
+            margin: 16px 0 10px 0;
+        }
+        .summary-card {
+            background: var(--input-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 14px;
+            padding: 14px;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+        .summary-card:hover { transform: translateY(-2px); box-shadow: 0 12px 30px rgba(0,0,0,0.08); }
+        .summary-title {
+            font-size: 0.85em;
+            color: var(--muted-text);
+            text-align: center;
+            margin-bottom: 6px;
+        }
+        .summary-value {
+            font-size: 1.4em;
+            font-weight: 800;
+            text-align: center;
+        }
+        .trend {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+            margin-top: 4px;
+            font-size: 0.85em;
+        }
+        .trend.up { color: var(--success-color); }
+        .trend.down { color: var(--danger-color); }
+        .trend.flat { color: var(--muted-text); }
+
+        /* Section divider */
+        .section-divider {
+            height: 1px;
+            background: linear-gradient(90deg, transparent, rgba(0,0,0,0.08), transparent);
+            margin: 16px 0;
+        }
+
+        /* Card headers and separators */
+        .input-group .label, .output-group .label {
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        .output-group .output-value {
+            border-top: 1px solid var(--border-color);
+            margin-top: 6px;
+            padding-top: 6px;
+        }
+        .hint {
+            display: none; /* Hide hints */
+        }
+        .progress {
+            height: 5px; /* Make progress bar thinner */
+            background: #e5e7eb;
+            border-radius: 999px;
+            overflow: hidden;
+            margin-top: 8px; /* Add some space above it */
+        }
+        .progress-bar { height: 100%; width: 0%; background: var(--accent-gradient); transition: width 0.6s cubic-bezier(.4,0,.2,1); }
 
         .date-selector {
             display: flex;
-            gap: 16px;
+            gap: 10px;
             margin-bottom: 20px;
+            align-items: center;
         }
+
+        .date-nav-btn {
+            background: rgba(255,255,255,0.95);
+            border: 1px solid rgba(0,0,0,0.08);
+            color: #111827;
+            border-radius: 10px;
+            padding: 10px 12px;
+            cursor: pointer;
+            transition: transform 0.15s ease, box-shadow 0.15s ease;
+        }
+        .date-nav-btn:hover { transform: translateY(-1px); box-shadow: 0 6px 14px rgba(0,0,0,0.08); }
+        .date-nav-btn:active { transform: translateY(0); }
 
         .select-wrapper {
             flex: 1;
@@ -76,7 +192,7 @@
             border: 1px solid #ddd;
             background-color: var(--input-bg);
             font-size: 1em;
-            font-family: 'Poppins', sans-serif;
+            font-family: 'Inter', 'Poppins', sans-serif;
             cursor: pointer;
             appearance: none;
             background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='%23888' viewBox='0 0 16 16'%3E%3Cpath d='M7.247 11.14L2.451 5.658C1.885 5.013 2.345 4 3.204 4h9.592a1 1 0 0 1 .753 1.659l-4.796 5.48a1 1 0 0 1-1.506 0z'/%3E%3C/svg%3E");
@@ -84,6 +200,8 @@
             background-position: right 15px center;
             background-size: 12px;
         }
+        select:focus { outline: none; box-shadow: var(--focus-ring); border-color: var(--primary-color); }
+        input:focus, textarea:focus { outline: none; box-shadow: var(--focus-ring); border-color: var(--primary-color); }
 
         .index-inputs, .consumption-outputs {
             display: grid;
@@ -93,27 +211,36 @@
         
         .input-group, .output-group {
             background: var(--input-bg);
-            padding: 12px;
-            border-radius: 10px;
-            border: 1px solid #eee;
-            transition: background-color 0.3s ease;
+            padding: 14px;
+            border-radius: 14px;
+            border: 1px solid var(--border-color);
+            transition: background-color 0.3s ease, box-shadow 0.2s ease, transform 0.2s ease;
         }
+        .input-group:hover, .output-group:hover { box-shadow: 0 10px 26px rgba(0,0,0,0.08); transform: translateY(-1px); }
 
-        .water-cold {
-            background-color: #e0f2f7; /* Slightly darker blue */
-        }
-
-        .water-hot {
-            background-color: #ffe0e0; /* Slightly darker red */
-        }
+        .water-cold { background-color: rgba(14, 165, 233, 0.15); }
+        .water-hot { background-color: rgba(239, 68, 68, 0.12); }
 
         .input-group label, .output-group .label {
             display: block;
             font-size: 0.9em;
             font-weight: 600;
             margin-bottom: 8px;
-            color: #555;
+            color: var(--muted-text);
         }
+
+        /* Badges */
+        .badge {
+            display: inline-block;
+            padding: 2px 8px;
+            border-radius: 999px;
+            font-size: 0.75em;
+            font-weight: 700;
+            margin-left: 8px;
+            vertical-align: middle;
+        }
+        .badge-cold { background: rgba(59,130,246,0.12); color: #1d4ed8; border: 1px solid rgba(29,78,216,0.2); }
+        .badge-hot { background: rgba(239,68,68,0.12); color: #b91c1c; border: 1px solid rgba(185,28,28,0.2); }
         
         .input-group label .icon {
             margin-right: 5px;
@@ -149,15 +276,21 @@
             color: var(--success-color);
         }
 
-        /* Make consumption cards smaller without affecting page size */
+        /* Make consumption cards smaller */
         .consumption-outputs .output-group {
-            padding: 10px;
+            padding: 12px;
+            text-align: center;
         }
         .consumption-outputs .label {
             font-size: 0.85em;
+            justify-content: center;
         }
         .consumption-outputs .output-value {
-            font-size: 1.2em;
+            font-size: 1.4em;
+            font-weight: 800;
+            border-top: none;
+            padding-top: 0;
+            margin-top: 4px;
         }
 
         /* Totals row styling */
@@ -190,67 +323,54 @@
 
         .actions {
             display: flex;
-            flex-wrap: nowrap; /* Ensure buttons stay on a single line */
-            justify-content: center; /* Center the group of buttons */
-            gap: 8px; /* Reduced gap */
-            margin-top: 20px;
+            align-items: center;
+            gap: 8px;
+            margin-top: 25px;
+            padding-top: 20px;
+            border-top: 1px solid #f3f4f6; /* Gray 100 */
+        }
+
+        .action-group {
+            display: flex;
+            flex-grow: 1;
+            gap: 8px;
         }
 
         .action-button {
-            padding: 8px 12px; /* Reduced padding for all buttons */
-            border: none;
-            border-radius: 8px; /* Consistent border-radius */
-            color: white;
-            font-size: 0.9em; /* Consistent font size */
+            padding: 8px 12px;
+            border-radius: 8px;
+            font-size: 0.8em;
             font-weight: 600;
             cursor: pointer;
-            transition: all 0.3s ease;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* Consistent shadow */
-            text-align: center; /* Center the text */
-            flex-grow: 0; /* Prevent buttons from growing */
-            flex-shrink: 0; /* Prevent buttons from shrinking */
-            min-width: 105px; /* Slightly reduced minimum width for main buttons */
+            transition: all 0.2s ease;
+            text-align: center;
+            border: 1px solid #e5e7eb; /* Gray 200 */
+            background-color: #f9fafb; /* Gray 50 */
+            color: #4b5563; /* Gray 600 */
+            box-shadow: none;
+            flex-grow: 1;
+        }
+
+        .action-button:hover {
+            border-color: var(--primary-color);
+            color: var(--primary-color);
+            background-color: #f3f0fe; /* Violet 50 */
         }
         
-        .action-button:hover {
-            transform: translateY(-2px); /* Consistent hover effect */
-            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
-        }
-
-        #save-btn {
-            background: linear-gradient(135deg, var(--success-color), #20bf55);
-        }
-
-        #export-btn {
-            background: linear-gradient(135deg, #4a90e2, #357ABD); /* Softer blue */
-        }
-
-        #export-backup-btn {
-            background: linear-gradient(135deg, #888, #666); /* Darker, more neutral grey */
-        }
-
-        #import-backup-btn {
-            background: linear-gradient(135deg, #5cb85c, #449d44); /* Green for import, indicating success/addition */
-        }
-
         #clear-btn {
-            background: linear-gradient(135deg, #e74c3c, #c0392b); /* Softer red */
-            font-size: 0.6em; /* Even smaller text */
-            padding: 1px 4px; /* Tighter padding */
-            min-width: 70px; /* Narrower width */
-            opacity: 0.6; /* De-emphasized by default */
-            display: inline-flex; /* Center content nicely */
-            align-items: center;
-            justify-content: center;
-            gap: 4px; /* Space between icon and text */
-            line-height: 1.1; /* Comfortable line height */
-            margin-left: auto; /* Push to the right side of the row */
-            margin-right: 0; /* No extra gap on the right */
-            box-shadow: none; /* Less prominent */
-            font-weight: 500; /* Slightly lighter weight */
+            flex-grow: 0;
+            flex-shrink: 0;
+            padding: 8px;
+            font-size: 1em;
+            line-height: 1;
+            width: 34px;
+            height: 34px;
         }
+
         #clear-btn:hover {
-            opacity: 1; /* Full opacity on hover */
+            border-color: var(--danger-color);
+            color: var(--danger-color);
+            background-color: #fef2f2; /* Red 50 */
         }
 
         /* Mobile responsiveness */
@@ -274,29 +394,19 @@
                 padding: 12px;
             }
             .actions {
+                gap: 8px;
+            }
+            .actions {
                 flex-wrap: wrap;
-                justify-content: flex-start;
-                gap: 6px;
-                margin-top: 28px;
             }
-            .action-button {
-                min-width: 46%;
-                padding: 10px 12px;
-                font-size: 0.9em;
-                flex-grow: 1;
-                flex-basis: 46%;
-            }
-            #export-backup-btn, #import-backup-btn, #export-btn {
-                flex-basis: 46%;
+            .action-group {
+                flex-basis: 100%;
+                order: 1;
             }
             #clear-btn {
-                font-size: 0.6em;
-                padding: 4px 8px;
-                min-width: 0;
-                flex-grow: 0;
-                flex-basis: auto;
-                margin-left: auto;
-                order: 2; /* keep it last and to the right */
+                order: 2;
+                flex-basis: 100%;
+                margin-top: 8px;
             }
         }
     </style>
@@ -305,76 +415,95 @@
 
     <div class="app-container">
         <div class="header">
+            <div class="hero-stripe"></div>
             <h1>Evidență Index Apă</h1>
+            <div class="subtext">Monitorizează și exportă consumul lunar</div>
+            
         </div>
 
         <div class="date-selector">
+            <button id="prev-month" class="date-nav-btn" title="Luna anterioară (←)">←</button>
             <div class="select-wrapper">
                 <select id="year-select"></select>
             </div>
             <div class="select-wrapper">
                 <select id="month-select"></select>
             </div>
+            <button id="next-month" class="date-nav-btn" title="Luna următoare (→)">→</button>
         </div>
 
+
         <div class="section-title">Index Curent (m³)</div>
+        <div class="section-divider"></div>
         <div class="index-inputs">
             <div class="input-group water-cold">
-                <label for="baie-rece"><span class="icon">🛁</span>Baie Rece</label>
+                <label for="baie-rece"><span class="icon">🛁</span>Baie Rece <span class="badge badge-cold">Rece</span></label>
                 <input type="number" id="baie-rece" placeholder="0.00">
             </div>
             <div class="input-group water-hot">
-                <label for="baie-calda"><span class="icon">🛁</span>Baie Caldă</label>
+                <label for="baie-calda"><span class="icon">🛁</span>Baie Caldă <span class="badge badge-hot">Caldă</span></label>
                 <input type="number" id="baie-calda" placeholder="0.00">
             </div>
             <div class="input-group water-cold">
-                <label for="bucatarie-rece"><span class="icon">🍽️</span>Bucătărie Rece</label>
+                <label for="bucatarie-rece"><span class="icon">🍽️</span>Bucătărie Rece <span class="badge badge-cold">Rece</span></label>
                 <input type="number" id="bucatarie-rece" placeholder="0.00">
             </div>
             <div class="input-group water-hot">
-                <label for="bucatarie-calda"><span class="icon">🍽️</span>Bucătărie Caldă</label>
+                <label for="bucatarie-calda"><span class="icon">🍽️</span>Bucătărie Caldă <span class="badge badge-hot">Caldă</span></label>
                 <input type="number" id="bucatarie-calda" placeholder="0.00">
             </div>
         </div>
 
         <div class="section-title">Consum Lunar (m³)</div>
+        <div class="section-divider"></div>
         <div class="consumption-outputs">
             <div class="output-group water-cold">
-                <div class="label"><span class="icon">🛁</span>Baie Rece</div>
+                <div class="label"><span class="icon">🛁</span>Baie Rece <span class="badge badge-cold">Rece</span></div>
                 <div class="output-value neutral" id="consum-baie-rece">-</div>
+                <div class="progress"><div class="progress-bar" id="progress-baie-rece"></div></div>
             </div>
             <div class="output-group water-hot">
-                <div class="label"><span class="icon">🛁</span>Baie Caldă</div>
+                <div class="label"><span class="icon">🛁</span>Baie Caldă <span class="badge badge-hot">Caldă</span></div>
                 <div class="output-value neutral" id="consum-baie-calda">-</div>
+                <div class="progress"><div class="progress-bar" id="progress-baie-calda"></div></div>
             </div>
             <div class="output-group water-cold">
-                <div class="label"><span class="icon">🍽️</span>Bucătărie Rece</div>
+                <div class="label"><span class="icon">🍽️</span>Bucătărie Rece <span class="badge badge-cold">Rece</span></div>
                 <div class="output-value neutral" id="consum-bucatarie-rece">-</div>
+                <div class="progress"><div class="progress-bar" id="progress-bucatarie-rece"></div></div>
             </div>
             <div class="output-group water-hot">
-                <div class="label"><span class="icon">🍽️</span>Bucătărie Caldă</div>
+                <div class="label"><span class="icon">🍽️</span>Bucătărie Caldă <span class="badge badge-hot">Caldă</span></div>
                 <div class="output-value neutral" id="consum-bucatarie-calda">-</div>
+                <div class="progress"><div class="progress-bar" id="progress-bucatarie-calda"></div></div>
             </div>
         </div>
 
-        <div class="consumption-totals">
-            <div class="output-group water-cold">
-                <div class="label"><span class="icon">💧</span>Apa Rece (Total)</div>
-                <div class="output-value neutral" id="consum-total-rece">-</div>
+        <div class="section-title">Total Consum Lunar</div>
+        <div class="summary-cards">
+            <div class="summary-card">
+                <div class="summary-title">Apa Rece (Total)</div>
+                <div id="summary-total-rece" class="summary-value">-</div>
+                <div id="trend-total-rece" class="trend flat">—</div>
             </div>
-            <div class="output-group water-hot">
-                <div class="label"><span class="icon">🔥</span>Apa Caldă (Total)</div>
-                <div class="output-value neutral" id="consum-total-calda">-</div>
+            <div class="summary-card">
+                <div class="summary-title">Apa Caldă (Total)</div>
+                <div id="summary-total-calda" class="summary-value">-</div>
+                <div id="trend-total-calda" class="trend flat">—</div>
             </div>
         </div>
+
+
+        
 
             <div class="actions">
-                <!-- <button id="save-btn" class="action-button">💾 Salvează</button> -->
-                <button id="export-btn" class="action-button">📊 Raport Excel</button>
-                <button id="export-backup-btn" class="action-button">📥 Exportă Date</button>
-                <input type="file" id="import-backup-file" accept=".json" style="display: none;">
-                <button id="import-backup-btn" class="action-button">📤 Importă Date</button>
-                <button id="clear-btn" class="action-button" title="Sterge Date" aria-label="Sterge Date">🗑️ Sterge Date</button>
+                <div class="action-group">
+                    <button id="export-btn" class="action-button">📊 Raport</button>
+                    <button id="export-backup-btn" class="action-button">📥 Export</button>
+                    <input type="file" id="import-backup-file" accept=".json" style="display: none;">
+                    <button id="import-backup-btn" class="action-button">📤 Import</button>
+                </div>
+                <button id="clear-btn" class="action-button" title="Șterge Toate Datele">🗑️</button>
             </div>
     </div>
 
@@ -402,17 +531,32 @@
                 'bucatarie-calda': document.getElementById('consum-bucatarie-calda'),
                 'bucatarie-rece': document.getElementById('consum-bucatarie-rece')
             };
+            const hints = {
+                'baie-calda': document.getElementById('hint-baie-calda'),
+                'baie-rece': document.getElementById('hint-baie-rece'),
+                'bucatarie-calda': document.getElementById('hint-bucatarie-calda'),
+                'bucatarie-rece': document.getElementById('hint-bucatarie-rece')
+            };
+            const summaryEls = {
+                rece: document.getElementById('summary-total-rece'),
+                calda: document.getElementById('summary-total-calda'),
+                trendRece: document.getElementById('trend-total-rece'),
+                trendCalda: document.getElementById('trend-total-calda')
+            };
             const saveBtn = document.getElementById('save-btn');
             const exportBtn = document.getElementById('export-btn');
             const exportBackupBtn = document.getElementById('export-backup-btn');
             const importBackupBtn = document.getElementById('import-backup-btn');
             const importBackupFile = document.getElementById('import-backup-file');
             const clearBtn = document.getElementById('clear-btn');
+            const prevBtn = document.getElementById('prev-month');
+            const nextBtn = document.getElementById('next-month');
 
             const startYear = 2025;
             const endYear = 2027;
             const monthNames = ['Ianuarie', 'Februarie', 'Martie', 'Aprilie', 'Mai', 'Iunie', 'Iulie', 'August', 'Septembrie', 'Octombrie', 'Noiembrie', 'Decembrie'];
             let data = JSON.parse(localStorage.getItem('waterDataV2')) || {};
+            // Dark mode removed
 
             function populateYears() {
                 for (let year = startYear; year <= endYear; year++) {
@@ -436,8 +580,47 @@
                 }
             }
 
+            function changeMonth(delta) {
+                clearTimeout(saveTimeout);
+                let y = parseInt(yearSelect.value);
+                let m = parseInt(monthSelect.value);
+                m += delta;
+                if (m > 11) { m = 0; y++; }
+                if (m < 0) {
+                    m = 11;
+                    y--;
+                }
+
+                // Bound by configured years and months
+                if (y < startYear || (y === startYear && m < 8)) {
+                    y = startYear;
+                    m = 8; // September
+                }
+                if (y > endYear || (y === endYear && m > 11)) {
+                    y = endYear;
+                    m = 11; // December
+                }
+
+                yearSelect.value = y;
+                populateMonths(y);
+                // Ensure month exists for year
+                const option = monthSelect.querySelector(`option[value="${m}"]`);
+                monthSelect.value = option ? m : monthSelect.options[monthSelect.options.length - 1].value;
+
+                localStorage.setItem('selectedYear', yearSelect.value);
+                localStorage.setItem('selectedMonth', monthSelect.value);
+                updateUI();
+            }
+
             function getKey(year, month, type) {
                 return `${year}-${month}-${type}`;
+            }
+
+            function calculateAllConsumptions() {
+                for (const type in inputs) {
+                    calculateConsumption(type);
+                }
+                updateTotals();
             }
 
             function updateUI() {
@@ -452,6 +635,7 @@
                 
                 // Calculate and display consumption
                 calculateAllConsumptions();
+                updateProgressBars();
             }
             
             function calculateConsumption(type) {
@@ -462,12 +646,14 @@
                 if (isNaN(currentVal)) {
                     outputs[type].textContent = '-';
                     outputs[type].className = 'output-value neutral';
+                    if (hints[type]) { hints[type].textContent = ''; hints[type].className = 'hint'; }
                     return;
                 }
 
                 if (year === startYear && month === 8) { // First month
                     outputs[type].textContent = '-';
                     outputs[type].className = 'output-value neutral';
+                    if (hints[type]) { hints[type].textContent = ''; hints[type].className = 'hint'; }
                     return;
                 }
 
@@ -484,6 +670,7 @@
                 if (isNaN(prevVal)) {
                     outputs[type].textContent = '-';
                     outputs[type].className = 'output-value neutral';
+                    if (hints[type]) { hints[type].textContent = ''; hints[type].className = 'hint'; }
                 } else {
                     const consumption = currentVal - prevVal;
                     outputs[type].textContent = `${consumption.toFixed(2)} m³`;
@@ -492,7 +679,22 @@
                     } else {
                         outputs[type].className = 'output-value negative';
                     }
+                    // Intelligent hints
+                    if (hints[type]) {
+                        let msg = '';
+                        let cls = 'hint';
+                        if (consumption < 0) {
+                            msg = 'Index mai mic decât luna trecută. Verifică citirea.';
+                            cls += ' error';
+                        } else if (consumption > 20) {
+                            msg = 'Consum neobișnuit de mare. Posibilă scurgere sau eroare.';
+                            cls += ' warn';
+                        }
+                        hints[type].textContent = msg;
+                        hints[type].className = cls;
+                    }
                 }
+                updateTotals();
             }
             
             function getConsumptionValue(type) {
@@ -542,32 +744,109 @@
 
                 const totalRece = sumTypes(coldTypes);
                 const totalCalda = sumTypes(hotTypes);
+                // update summary directly
+                summaryEls.rece.textContent = (totalRece === null) ? '-' : `${totalRece.toFixed(2)} m³`;
+                summaryEls.calda.textContent = (totalCalda === null) ? '-' : `${totalCalda.toFixed(2)} m³`;
+                updateTrends();
+            }
 
-                const totalReceEl = document.getElementById('consum-total-rece');
-                const totalCaldaEl = document.getElementById('consum-total-calda');
+            function getPrevMonthTotals() {
+                const year = parseInt(yearSelect.value);
+                const month = parseInt(monthSelect.value);
 
-                if (totalRece === null) {
-                    totalReceEl.textContent = '-';
-                    totalReceEl.className = 'output-value neutral';
-                } else {
-                    totalReceEl.textContent = `${totalRece.toFixed(2)} m³`;
-                    totalReceEl.className = totalRece >= 0 ? 'output-value' : 'output-value negative';
-                }
+                // Calculate previous month
+                let prevMonth = month - 1;
+                let prevYear = year;
+                if (prevMonth < 0) { prevMonth = 11; prevYear--; }
 
-                if (totalCalda === null) {
-                    totalCaldaEl.textContent = '-';
-                    totalCaldaEl.className = 'output-value neutral';
-                } else {
-                    totalCaldaEl.textContent = `${totalCalda.toFixed(2)} m³`;
-                    totalCaldaEl.className = totalCalda >= 0 ? 'output-value' : 'output-value negative';
-                }
+                // Calculate month before previous month
+                let prevPrevMonth = prevMonth - 1;
+                let prevPrevYear = prevYear;
+                if (prevPrevMonth < 0) { prevPrevMonth = 11; prevPrevYear--; }
+
+                const getConsumption = (type, cYear, cMonth, pYear, pMonth) => {
+                    const currentKey = getKey(cYear, cMonth, type);
+                    const prevKey = getKey(pYear, pMonth, type);
+                    const currentVal = parseFloat(data[currentKey]);
+                    const prevVal = parseFloat(data[prevKey]);
+                    if (isNaN(currentVal) || isNaN(prevVal)) {
+                        return null;
+                    }
+                    return currentVal - prevVal;
+                };
+
+                const cold1 = getConsumption('baie-rece', prevYear, prevMonth, prevPrevYear, prevPrevMonth);
+                const cold2 = getConsumption('bucatarie-rece', prevYear, prevMonth, prevPrevYear, prevPrevMonth);
+                const hot1 = getConsumption('baie-calda', prevYear, prevMonth, prevPrevYear, prevPrevMonth);
+                const hot2 = getConsumption('bucatarie-calda', prevYear, prevMonth, prevPrevYear, prevPrevMonth);
+
+                const sumIf = (x, y) => (x !== null && y !== null) ? x + y : null;
+
+                return {
+                    cold: sumIf(cold1, cold2),
+                    hot: sumIf(hot1, hot2)
+                };
+            }
+
+            function getCurrentTotals() {
+                const cold = getConsumptionValue('baie-rece');
+                const cold2 = getConsumptionValue('bucatarie-rece');
+                const hot = getConsumptionValue('baie-calda');
+                const hot2 = getConsumptionValue('bucatarie-calda');
+                const sumIf = (x, y) => (x !== null && y !== null) ? x + y : null;
+                return {
+                    cold: sumIf(cold, cold2),
+                    hot: sumIf(hot, hot2)
+                };
+            }
+
+            function updateTrends() {
+                const prev = getPrevMonthTotals();
+                const curr = getCurrentTotals();
+
+                const render = (el, currVal, prevVal) => {
+                    if (currVal === null || prevVal === null) {
+                        el.textContent = '—';
+                        el.className = 'trend flat';
+                        return;
+                    }
+                    const diff = currVal - prevVal;
+                    if (Math.abs(diff) < 0.005) {
+                        el.textContent = '↔ 0.00 m³';
+                        el.className = 'trend flat';
+                    } else if (diff > 0) {
+                        el.textContent = `↑ ${diff.toFixed(2)} m³`;
+                        el.className = 'trend up';
+                    } else {
+                        el.textContent = `↓ ${Math.abs(diff).toFixed(2)} m³`;
+                        el.className = 'trend down';
+                    }
+                };
+                render(summaryEls.trendRece, curr.cold, prev.cold);
+                render(summaryEls.trendCalda, curr.hot, prev.hot);
             }
             
-            function calculateAllConsumptions() {
-                for (const type in inputs) {
-                    calculateConsumption(type);
+            function updateProgressBars() {
+                const maxConsumption = 25; // Cap for progress visualization
+                for (const type in outputs) {
+                    const progressEl = document.getElementById(`progress-${type}`);
+                    if (!progressEl) continue;
+                    
+                    const outputText = outputs[type].textContent;
+                    if (outputText === '-' || outputText === '') {
+                        progressEl.style.width = '0%';
+                        continue;
+                    }
+                    
+                    const consumption = parseFloat(outputText.replace(' m³', ''));
+                    if (isNaN(consumption)) {
+                        progressEl.style.width = '0%';
+                        continue;
+                    }
+                    
+                    const percentage = Math.min(Math.max(consumption / maxConsumption * 100, 0), 100);
+                    progressEl.style.width = `${percentage}%`;
                 }
-                updateTotals();
             }
 
             function saveData(showAlert = true) {
@@ -592,6 +871,7 @@
                     }
                 }
                 calculateAllConsumptions();
+                updateProgressBars();
             }
 
             function clearAllData() {
@@ -765,6 +1045,7 @@
 
             // Event Listeners
             yearSelect.addEventListener('change', () => {
+                clearTimeout(saveTimeout);
                 const previousMonth = monthSelect.value;
                 populateMonths(yearSelect.value);
                 // Try to keep same month if available after year change
@@ -779,10 +1060,25 @@
                 updateUI();
             });
             monthSelect.addEventListener('change', () => {
+                clearTimeout(saveTimeout);
                 localStorage.setItem('selectedYear', yearSelect.value);
                 localStorage.setItem('selectedMonth', monthSelect.value);
                 updateUI();
             });
+
+            // Month navigation buttons
+            prevBtn.addEventListener('click', () => changeMonth(-1));
+            nextBtn.addEventListener('click', () => changeMonth(1));
+
+            // Keyboard shortcuts: left/right arrows navigate months if not typing in fields
+            document.addEventListener('keydown', (e) => {
+                const tag = (document.activeElement && document.activeElement.tagName) || '';
+                if (tag === 'INPUT' || tag === 'TEXTAREA' || tag === 'SELECT') return;
+                if (e.key === 'ArrowLeft') { e.preventDefault(); changeMonth(-1); }
+                if (e.key === 'ArrowRight') { e.preventDefault(); changeMonth(1); }
+            });
+
+            // No theme toggle
             exportBtn.addEventListener('click', exportToExcel);
             exportBackupBtn.addEventListener('click', exportBackup);
             importBackupBtn.addEventListener('click', importBackup);
@@ -794,13 +1090,23 @@
                 clearTimeout(saveTimeout);
                 saveTimeout = setTimeout(() => {
                     saveData(false); // Pass false to suppress the alert
-                }, 500); // Save after 500ms of no input
+                }, 800); // Save after 800ms of no input
             }
 
             for (const type in inputs) {
                 inputs[type].addEventListener('input', () => {
                     calculateConsumption(type);
                     debounceSave(); // Call debounceSave on input
+                });
+                // Format to 2 decimals on blur and prevent negatives
+                inputs[type].addEventListener('blur', () => {
+                    let v = inputs[type].value;
+                    if (v === '') return;
+                    let num = parseFloat(v.toString().replace(',', '.'));
+                    if (isNaN(num) || num < 0) { inputs[type].value = ''; calculateConsumption(type); debounceSave(); return; }
+                    inputs[type].value = num.toFixed(2);
+                    calculateConsumption(type);
+                    debounceSave();
                 });
             }
         });
