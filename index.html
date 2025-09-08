@@ -391,16 +391,24 @@
                 font-size: 1.6em;
             }
             .date-selector {
-                flex-wrap: nowrap; /* Keep on one line if possible */
+                flex-wrap: nowrap; /* Force on one line */
                 justify-content: space-between;
                 gap: 6px;
             }
             .date-selector .select-wrapper {
-                flex-basis: 40%; /* Give more space to dropdowns */
+                flex-basis: 45%; /* Give more space to dropdowns */
                 flex-shrink: 1;
             }
             .date-selector .date-nav-btn {
                 padding: 8px 10px; /* Smaller nav buttons */
+                flex-basis: auto;
+            }
+            select {
+                font-size: 0.8em; /* Smaller font to fit text */
+                padding: 8px 8px; /* Smaller padding */
+                padding-right: 24px; /* Adjust for arrow */
+                background-position: right 6px center;
+                background-size: 9px; /* Smaller arrow */
             }
             .index-inputs, .consumption-outputs {
                 grid-template-columns: 1fr;
