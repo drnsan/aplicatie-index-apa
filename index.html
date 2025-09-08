@@ -391,9 +391,16 @@
                 font-size: 1.6em;
             }
             .date-selector {
-                flex-wrap: wrap;
-                justify-content: center;
-                gap: 8px;
+                flex-wrap: nowrap; /* Keep on one line if possible */
+                justify-content: space-between;
+                gap: 6px;
+            }
+            .date-selector .select-wrapper {
+                flex-basis: 40%; /* Give more space to dropdowns */
+                flex-shrink: 1;
+            }
+            .date-selector .date-nav-btn {
+                padding: 8px 10px; /* Smaller nav buttons */
             }
             .index-inputs, .consumption-outputs {
                 grid-template-columns: 1fr;
@@ -403,19 +410,36 @@
                 padding: 12px;
             }
             .actions {
-                flex-wrap: wrap; /* Allow wrapping again for better distribution */
-                gap: 8px;
+                flex-wrap: nowrap; /* Keep all buttons on one line */
+                justify-content: space-between;
+                gap: 6px;
             }
             .action-group {
-                flex-basis: 100%; /* Main group takes full width */
-                flex-wrap: wrap;
+                flex-grow: 1;
+                flex-wrap: nowrap; /* Keep main buttons on one line */
+                gap: 6px;
             }
             .action-group .action-button {
-                flex-basis: calc(50% - 4px); /* Two buttons per row */
+                flex-basis: auto; /* Let content dictate size, but grow */
+                padding: 8px 6px; /* Even smaller padding for mobile */
+                font-size: 0.7em; /* Smaller font for mobile */
             }
             #clear-btn {
-                flex-basis: 100%; /* Delete button takes full width */
-                margin-top: 8px;
+                flex-grow: 0;
+                flex-shrink: 0;
+                width: 30px; /* Fixed small width */
+                height: 30px; /* Fixed small height */
+                padding: 0; /* Remove padding */
+                font-size: 0.9em; /* Icon size */
+                border: none; /* No border */
+                background-color: transparent; /* Transparent background */
+                color: var(--muted-text); /* Muted color */
+                opacity: 0.7; /* Fade effect */
+            }
+            #clear-btn:hover {
+                opacity: 1;
+                color: var(--danger-color);
+                background-color: transparent;
             }
         }
     </style>
