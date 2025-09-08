@@ -187,19 +187,19 @@
 
         select {
             width: 100%;
-            padding: 12px;
-            border-radius: 10px;
+            padding: 8px 10px; /* Smaller padding */
+            border-radius: 8px; /* Slightly smaller radius */
             border: 1px solid #ddd;
             background-color: var(--input-bg);
-            font-size: 1em;
+            font-size: 0.9em; /* Smaller font size */
             font-family: 'Inter', 'Poppins', sans-serif;
             cursor: pointer;
             appearance: none;
             background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='%23888' viewBox='0 0 16 16'%3E%3Cpath d='M7.247 11.14L2.451 5.658C1.885 5.013 2.345 4 3.204 4h9.592a1 1 0 0 1 .753 1.659l-4.796 5.48a1 1 0 0 1-1.506 0z'/%3E%3C/svg%3E");
             background-repeat: no-repeat;
-            background-position: right 10px center; /* Adjusted position */
-            background-size: 12px;
-            padding-right: 30px; /* Ensure space for the arrow */
+            background-position: right 8px center; /* Adjusted position */
+            background-size: 10px; /* Smaller arrow */
+            padding-right: 25px; /* Ensure space for the arrow */
         }
         select:focus { outline: none; box-shadow: var(--focus-ring); border-color: var(--primary-color); }
         input:focus, textarea:focus { outline: none; box-shadow: var(--focus-ring); border-color: var(--primary-color); }
@@ -362,11 +362,17 @@
         #clear-btn {
             flex-grow: 0;
             flex-shrink: 0;
-            padding: 8px;
-            font-size: 1em;
-            line-height: 1;
-            width: 34px;
-            height: 34px;
+            padding: 6px 10px; /* Slightly larger padding for button feel */
+            font-size: 0.75em; /* Keep font small */
+            font-weight: 600;
+            border-radius: 8px;
+            border: 1px solid #e5e7eb; /* Light border */
+            background-color: #f9fafb; /* Light background */
+            color: var(--muted-text); /* Muted text color */
+            box-shadow: none;
+            white-space: nowrap;
+            width: auto; /* Auto width for text */
+            height: auto; /* Auto height */
         }
 
         #clear-btn:hover {
@@ -506,7 +512,7 @@
                     <input type="file" id="import-backup-file" accept=".json" style="display: none;">
                     <button id="import-backup-btn" class="action-button">📤 Importă Datele</button>
                 </div>
-                <button id="clear-btn" class="action-button" title="Șterge Toate Datele">🗑️</button>
+                <button id="clear-btn" class="action-button" title="Șterge Toate Datele">🗑️ Șterge Date</button>
             </div>
     </div>
 
