@@ -197,8 +197,9 @@
             appearance: none;
             background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='%23888' viewBox='0 0 16 16'%3E%3Cpath d='M7.247 11.14L2.451 5.658C1.885 5.013 2.345 4 3.204 4h9.592a1 1 0 0 1 .753 1.659l-4.796 5.48a1 1 0 0 1-1.506 0z'/%3E%3C/svg%3E");
             background-repeat: no-repeat;
-            background-position: right 15px center;
+            background-position: right 10px center; /* Adjusted position */
             background-size: 12px;
+            padding-right: 30px; /* Ensure space for the arrow */
         }
         select:focus { outline: none; box-shadow: var(--focus-ring); border-color: var(--primary-color); }
         input:focus, textarea:focus { outline: none; box-shadow: var(--focus-ring); border-color: var(--primary-color); }
@@ -396,8 +397,19 @@
                 padding: 12px;
             }
             .actions {
-                flex-wrap: nowrap;
+                flex-wrap: wrap; /* Allow wrapping again for better distribution */
                 gap: 8px;
+            }
+            .action-group {
+                flex-basis: 100%; /* Main group takes full width */
+                flex-wrap: wrap;
+            }
+            .action-group .action-button {
+                flex-basis: calc(50% - 4px); /* Two buttons per row */
+            }
+            #clear-btn {
+                flex-basis: 100%; /* Delete button takes full width */
+                margin-top: 8px;
             }
         }
     </style>
