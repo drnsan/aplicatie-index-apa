@@ -418,36 +418,38 @@
                 padding: 12px;
             }
             .actions {
-                flex-wrap: nowrap; /* Keep all buttons on one line */
-                justify-content: space-between;
-                gap: 6px;
+                flex-wrap: wrap; /* Allow wrapping for better distribution */
+                justify-content: center;
+                gap: 8px;
             }
             .action-group {
-                flex-grow: 1;
-                flex-wrap: nowrap; /* Keep main buttons on one line */
-                gap: 6px;
+                flex-basis: 100%; /* Main group takes full width */
+                flex-wrap: wrap;
+                justify-content: center;
+                gap: 8px;
             }
             .action-group .action-button {
-                flex-basis: auto; /* Let content dictate size, but grow */
-                padding: 8px 6px; /* Even smaller padding for mobile */
-                font-size: 0.7em; /* Smaller font for mobile */
+                flex-basis: calc(50% - 4px); /* Two buttons per row */
+                padding: 8px 10px; /* Restore slightly larger padding */
+                font-size: 0.78em; /* Restore font size */
             }
             #clear-btn {
-                flex-grow: 0;
-                flex-shrink: 0;
-                width: 30px; /* Fixed small width */
-                height: 30px; /* Fixed small height */
-                padding: 0; /* Remove padding */
-                font-size: 0.9em; /* Icon size */
-                border: none; /* No border */
-                background-color: transparent; /* Transparent background */
-                color: var(--muted-text); /* Muted color */
-                opacity: 0.7; /* Fade effect */
+                flex-basis: 100%; /* Delete button takes full width */
+                margin-top: 8px;
+                padding: 6px 10px; /* Restore button padding */
+                font-size: 0.75em; /* Keep font small */
+                border: 1px solid #e5e7eb; /* Light border */
+                background-color: #f9fafb; /* Light background */
+                color: var(--muted-text); /* Muted text color */
+                opacity: 0.8; /* Subtle fade */
+                width: auto;
+                height: auto;
             }
             #clear-btn:hover {
                 opacity: 1;
+                border-color: var(--danger-color);
                 color: var(--danger-color);
-                background-color: transparent;
+                background-color: #fef2f2; /* Red 50 */
             }
         }
     </style>
