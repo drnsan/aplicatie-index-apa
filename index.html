@@ -204,6 +204,11 @@
         select:focus { outline: none; box-shadow: var(--focus-ring); border-color: var(--primary-color); }
         input:focus, textarea:focus { outline: none; box-shadow: var(--focus-ring); border-color: var(--primary-color); }
 
+        /* Disable tap highlight on mobile */
+        button, select {
+            -webkit-tap-highlight-color: transparent;
+        }
+
         .index-inputs, .consumption-outputs {
             display: grid;
             grid-template-columns: repeat(2, 1fr);
